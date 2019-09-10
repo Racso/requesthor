@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Racso's Requesthor</title>
+</head>
+
+<body>
+  <div class="io">
+    <textarea id="io_input"></textarea>
+    <button id="io_submit">Gogogo</button>
+    <p id="io_output"></p>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script>
+    $(function () {
+      $("#io_submit").click(async function () {
+        await processInput();
+      });
+    });
+
+    async function processInput() {
+      var requests = $("#io_input").val().split("\n");
+      processRequests(requests);
+    }
+
+    async function processRequests(requests) {
+      for (var i = 0; i < requests.length; i++) {
+        outputRequestStatus(i + 1, requests.length);
+        await processRequest(requests[i]);
+      }
+      output("Done");
+    }
+
+    function outputRequestStatus(processed, total) {
+      output("Sent Request " + processed + " / " + total);
+    }
+
+    async function processRequest(request) {
+      if (!isRunnableRequest(request)) return;
+      await $.ajax(request);
+    }
+
+    function isRunnableRequest(request) {
+      return request != "" && !request.startsWith("//");
+    }
+
+    function output(text) {
+      $("#io_output").text(text);
+    }
+  </script>
+</body>
+
+</html>
