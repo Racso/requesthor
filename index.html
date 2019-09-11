@@ -2,33 +2,123 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Racso's Requesthor</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300|VT323|Vollkorn&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <style>
+    html {
+      box-sizing: border-box;
+    }
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
+
+    body {
+      font-family: "Roboto", sans-serif;
+      font-size: 20px;
+      font-weight: 300;
+      color: #a0b9d2;
+      background: #222c35;
+    }
+
+    .wrapper {
+      width: 80%;
+      margin: 0 auto;
+    }
+
+    .header-area {
+      margin: 175px 0 100px 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .header {
+      position: relative;
+    }
+
+    .header__title {
+      display: inline-block;
+      font-size: 82px;
+      font-family: 'VT323', monospace;
+    }
+
+    .header__mascot {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      transform: translate(43%, 0%);
+      z-index: -1;
+    }
+
+    .header__author {
+      text-align: right;
+      font-family: 'Vollkorn', serif;
+      font-size: 120%;
+    }
+
+    .io__input {
+      display: block;
+      margin: 20px auto;
+      width: 100%;
+      height: 200px;
+      padding: 5px;
+      background: inherit;
+      color: #a0b9d2;
+      border: solid 5px #a0b9d2;
+      font-family: Consolas, Monospace;
+      white-space: nowrap;
+    }
+
+    .io__submit {
+      display: block;
+      margin: 20px auto;
+      height: 3em;
+      width: 50%;
+      font-size: 120%;
+      background: #a0b9d2;
+      border: none;
+      color: #222c35;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="io">
-    <textarea id="io_input"></textarea>
-    <button id="io_submit">Gogogo</button>
-    <p id="io_output"></p>
+  <div class="wrapper">
+    <div class="header-area">
+      <div class="header">
+        <div class="header__title">Requesthor</div>
+        <div class="header__author">By Racso</div>
+        <div class="header__mascot"><img src="thor.gif"></div>
+      </div>
+    </div>
+    <div class="io" id="controllers">
+      <textarea class="io__input"></textarea>
+      <button class="io__submit">Send Requests</button>
+      <p class="io__output"></p>
+    </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <script>
     $(function () {
-      $("#io_submit").click(async function () {
+      $("#controllers .io__submit").click(async function () {
         await processInput();
       });
     });
 
     async function processInput() {
-      var requests = $("#io_input").val().split("\n");
+      var requests = $("#controllers .io__input").val().split("\n");
       processRequests(requests);
     }
 
     async function processRequests(requests) {
+      output("Sending Requests");
       for (var i = 0; i < requests.length; i++) {
         outputRequestStatus(i + 1, requests.length);
         await processRequest(requests[i]);
@@ -50,7 +140,7 @@
     }
 
     function output(text) {
-      $("#io_output").text(text);
+      $("#controllers .io__output").text(text);
     }
   </script>
 </body>
